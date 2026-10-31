@@ -129,6 +129,7 @@ const token = "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw";
             
             const text = `Поступила новая анкета! \n👤 Имя: ${name} \n📞 Телефон: ${phone} \n💼 Вакансия: ${vacancy}`;
             const url = `https://telegram.org{token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
+
             
             fetch(url)
                 .then(response => {
