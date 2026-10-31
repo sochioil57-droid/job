@@ -1,1 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа во ВкусВилл — Быстрый старт</title>
+    <style>
+        :root {
+            --vv-green: #4EAD47;
+            --vv-dark-green: #378531;
+            --vv-bg: #F4F9F3;
+            --vv-text: #2B2B2B;
+            --vv-white: #FFFFFF;
+            --vv-gray: #666666;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--vv-white);
+            color: var(--vv-text);
+            line-height: 1.4;
+        }
+
+        header {
+            background: var(--vv-white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #EAEAEA;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--vv-green);
+        }
+
+        .logo span { color: var(--vv-text); }
+
+        .schedule-badge {
+            background-color: #FFF3CD;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hero {
+            background-color: var(--vv-bg);
+            padding: 40px 5%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .hero h1 span { color: var(--vv-green); }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--vv-gray);
+            font-weight: 500;
+        }
+
+        .cards-container {
+            padding: 30px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--vv-white);
+            border: 2px solid #EAEAEA;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--vv-green);
+            transform: translateY(-2px);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--vv-green);
+            margin-bottom: 5px;
+        }
+
+        .time {
+            font-size: 15px;
+            color: var(--vv-gray);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .btn-select {
+            display: block;
+            background: var(--vv-green);
+            color: var(--vv-white);
+            padding: 12px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-select:hover { background-color: var(--vv-dark-green); }
+
+        .form-section {
+            background: #FAFAFA;
+            padding: 40px 5%;
+            border-top: 1px solid #EAEAEA;
+        }
+
+        .form-box {
+            max-width: 450px;
+            margin: 0 auto;
+            background: var(--vv-white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .form-box h2 {
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #CCC;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .form-input:focus { border-color: var(--vv-green); }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--vv-green);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover { background-color: var(--vv-dark-green); }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #999;
+            background: #232323;
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 26px; }
+            .price { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Вкус<span>Вилл</span> Работа</div>
+        <div class="schedule-badge">📅 График выбираете сами!</div>
+    </header>
+
+    <section class="hero">
+        <h1>Работа во ВкусВилл: <span>быстрый доход рядом с домом</span></h1>
+        <p>Выплаты без задержек, честные условия и свободный график</p>
+    </section>
+
+    <main class="cards-container">
+        <!-- Сборщик -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🎒</div>
+                <h3>Сборщик заказов</h3>
+                <div class="price">от 5 000 ₽ / день</div>
+                <div class="time">⏱️ Смены от 8 часов</div>
+            </div>
+            <a href="#apply-form" class="btn-select" onclick="document.getElementById('vacancy').value='picker'">Выбрать</a>
+        </div>
+
+        <!-- Вело курьер -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🚲</div>
+                <h3>Вело-курьер</h3>
+                <div class="price">от 7 000 ₽ / день</div>
+                <div class="time">⏱️ Смены от 8 часов</div>
+            </div>
+            <a href="#apply-form" class="btn-select" onclick="document.getElementById('vacancy').value='velo'">Выбрать</a>
+        </div>
+
+        <!-- Авто курьер -->
+        <div class="card">
+            <div>
+                <div class="card-icon">🚗</div>
+                <h3>Авто-курьер</h3>
+                <div class="price">до 10 000 ₽ / день</div>
+                <div class="time">⏱️ Свободный график</div>
+            </div>
+            <a href="#apply-form" class="btn-select" onclick="document.getElementById('vacancy').value='auto'">Выбрать</a>
+        </div>
+    </main>
+
+    <section class="form-section" id="apply-form">
+        <div class="form-box">
+            <h2>Быстрая анкета</h2>
+            <form onsubmit="event.preventDefault(); alert('Заявка принята! Менеджер перезвонит вам в течение 10 минут.');">
+                <div class="form-group">
+                    <label for="phone">Номер телефона</label>
+                    <input type="tel" id="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" class="form-input" placeholder="Имя" required>
+                </div>
+                <div class="form-group">
+                    <label for="vacancy">Вакансия</label>
+                    <select id="vacancy" class="form-input" required>
+                        <option value="">Выберите вакансию</option>
+                        <option value="picker">Сборщик заказов (от 5000 ₽)</option>
+                        <option value="velo">Вело-курьер (от 7000 ₽)</option>
+                        <option value="auto">Авто-курьер (до 10000 ₽)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Получить работу</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 ВкусВилл Работа. Выплаты вовремя. График на ваш выбор.
+    </footer>
+
+</body>
+</html>
 
