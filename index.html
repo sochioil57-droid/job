@@ -13,6 +13,7 @@
             --vv-white: #FFFFFF;
             --vv-gray: #666666;
         }
+        html { scroll-behavior: smooth; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { background-color: var(--vv-white); color: var(--vv-text); line-height: 1.4; }
         header { background: var(--vv-white); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #EAEAEA; }
@@ -29,14 +30,30 @@
         .card h3 { font-size: 22px; margin-bottom: 15px; }
         .price { font-size: 28px; font-weight: 800; color: var(--vv-green); margin-bottom: 5px; }
         .time { font-size: 15px; color: var(--vv-gray); font-weight: 500; margin-bottom: 20px; }
-        .btn-select { display: block; background: var(--vv-green); color: var(--vv-white); padding: 12px; border-radius: 25px; text-decoration: none; font-weight: bold; cursor: pointer; text-align: center; }
+        .btn-select {
+            display: block; width: 100%;
+            background: var(--vv-green); color: var(--vv-white);
+            padding: 12px; border: none; border-radius: 25px;
+            text-decoration: none; font-weight: bold; font-size: 16px;
+            cursor: pointer; text-align: center;
+            transition: background 0.2s;
+        }
+        .btn-select:hover { background: var(--vv-dark-green); }
         .form-section { background: #FAFAFA; padding: 40px 5%; border-top: 1px solid #EAEAEA; }
         .form-box { max-width: 450px; margin: 0 auto; background: var(--vv-white); padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .form-box h2 { font-size: 22px; text-align: center; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; }
-        .form-input { width: 100%; padding: 12px; border: 1px solid #CCC; border-radius: 8px; font-size: 16px; outline: none; }
-        .btn-submit { width: 100%; background: var(--vv-green); color: white; border: none; padding: 14px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .form-input { width: 100%; padding: 12px; border: 1px solid #CCC; border-radius: 8px; font-size: 16px; outline: none; background: var(--vv-white); }
+        .form-input:focus { border-color: var(--vv-green); }
+        .btn-submit {
+            width: 100%; background: var(--vv-green); color: white;
+            border: none; padding: 14px; border-radius: 25px;
+            font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover:not(:disabled) { background: var(--vv-dark-green); }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
         footer { padding: 20px; text-align: center; font-size: 13px; color: #999; background: #232323; }
     </style>
 </head>
@@ -60,7 +77,7 @@
                 <div class="price">от 5 000 ₽ / день</div>
                 <div class="time">⏱️ Смены от 8 часов</div>
             </div>
-            <div class="btn-select" onclick="document.getElementById('vacancy').value='Сборщик заказов (ВкусВилл)'; window.location.hash='apply-form';">Выбрать</div>
+            <button type="button" class="btn-select" data-vacancy="Сборщик заказов (ВкусВилл)">Выбрать</button>
         </div>
 
         <div class="card">
@@ -70,7 +87,7 @@
                 <div class="price">от 7 000 ₽ / день</div>
                 <div class="time">⏱️ Смены от 8 часов</div>
             </div>
-            <div class="btn-select" onclick="document.getElementById('vacancy').value='Вело-курьер (ВкусВилл)'; window.location.hash='apply-form';">Выбрать</div>
+            <button type="button" class="btn-select" data-vacancy="Вело-курьер (ВкусВилл)">Выбрать</button>
         </div>
 
         <div class="card">
@@ -80,7 +97,7 @@
                 <div class="price">до 10 000 ₽ / день</div>
                 <div class="time">⏱️ Свободный график</div>
             </div>
-            <div class="btn-select" onclick="document.getElementById('vacancy').value='Авто-курьер (Яндекс)'; window.location.hash='apply-form';">Выбрать</div>
+            <button type="button" class="btn-select" data-vacancy="Авто-курьер (Яндекс)">Выбрать</button>
         </div>
     </main>
 
@@ -90,7 +107,7 @@
             <form id="tg-form">
                 <div class="form-group">
                     <label for="phone">Номер телефона</label>
-                    <input type="tel" id="phone" class="form-input" placeholder="+7 (999) 000-00-00" required>
+                    <input type="tel" id="phone" class="form-input" placeholder="+7 (999) 000-00-00" inputmode="tel" required>
                 </div>
                 <div class="form-group">
                     <label for="name">Имя</label>
@@ -106,7 +123,7 @@
                         <option value="Авто-курьер (Яндекс)">Авто-курьер в Яндекс.Доставку (до 10000 ₽)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit">Получить работу</button>
+                <button type="submit" class="btn-submit" id="submit-btn">Получить работу</button>
             </form>
         </div>
     </section>
@@ -116,26 +133,54 @@
     </footer>
 
     <script>
-        document.getElementById('tg-form').addEventListener('submit', function(e) {
+        // ⚠️ ВАЖНО: токен бота виден в исходниках страницы.
+        // Для продакшена вынесите отправку на backend / Cloudflare Worker
+        // и перевыпустите токен через @BotFather → /revoke.
+        const TG_CONFIG = {
+            token: "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw",
+            chat_id: "345045524"
+        };
+
+        // Клик по карточке — подставляем вакансию и скроллим к форме
+        document.querySelectorAll('.btn-select').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const vacancy = btn.getAttribute('data-vacancy');
+                document.getElementById('vacancy').value = vacancy;
+                document.getElementById('apply-form').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('name').focus({ preventScroll: true });
+            });
+        });
+
+        // Отправка формы
+        document.getElementById('tg-form').addEventListener('submit', function (e) {
             e.preventDefault();
-            
-            const token = "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw";            
-            const chat_id = "345045524"; 
-            
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
             const vacancy = document.getElementById('vacancy').value;
-            
-            const text = `Поступила новая анкета! \n👤 Имя: ${name} \n📞 Телефон: ${phone} \n💼 Вакансия: ${vacancy}`;
-            const url = `https://telegram.org{token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
-            
+
+            const text = `Поступила новая анкета!\n👤 Имя: ${name}\n📞 Телефон: ${phone}\n💼 Вакансия: ${vacancy}`;
+            const url = `https://api.telegram.org/bot${TG_CONFIG.token}/sendMessage?chat_id=${TG_CONFIG.chat_id}&text=${encodeURIComponent(text)}`;
+
             fetch(url)
-                .then(response => {
+                .then(function (response) {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.json();
+                })
+                .then(function (data) {
+                    if (!data.ok) throw new Error(data.description || 'Telegram API error');
                     alert('Спасибо! Заявка принята. Менеджер свяжется с вами в течение 10 минут.');
                     document.getElementById('tg-form').reset();
                 })
-                .catch(error => {
-                    alert('Ошибка отправки. Попробуйте еще раз.');
+                .catch(function (error) {
+                    console.error('Ошибка отправки:', error);
+                    alert('Ошибка отправки. Попробуйте ещё раз.');
+                })
+                .finally(function () {
+                    submitBtn.disabled = false;
                 });
         });
     </script>
