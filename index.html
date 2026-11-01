@@ -119,9 +119,8 @@
         document.getElementById('tg-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Вставь свои данные ниже:
-const token = "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw";            
-    const chat_id = "345045524"; 
+            const token = "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw";            
+            const chat_id = "345045524"; 
             
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
@@ -129,7 +128,6 @@ const token = "9151741231:AAF0PpNtSj48DIAf2ApwM27feGCvQy3iBuw";
             
             const text = `Поступила новая анкета! \n👤 Имя: ${name} \n📞 Телефон: ${phone} \n💼 Вакансия: ${vacancy}`;
             const url = `https://telegram.org{token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`;
-
             
             fetch(url)
                 .then(response => {
