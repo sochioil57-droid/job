@@ -254,7 +254,7 @@
     <section class="form-section" id="apply-form">
         <div class="form-box">
             <h2>Быстрая анкета</h2>
-            <form action="https://formspree.io/f/xyeenelj" method="POST">
+            <form action="https://formspree.io" method="POST">
                 <div class="form-group">
                     <label for="phone">Номер телефона</label>
                     <input type="tel" id="phone" name="Телефон" class="form-input" placeholder="+7 (999) 000-00-00" required>
@@ -280,6 +280,34 @@
     <footer>
         © 2026 ВкусВилл Работа. Все права защищены.
     </footer>
+
+    <script>
+      var form = document.getElementById("apply-form").querySelector("form");
+      form.addEventListener("submit", function(ev) {
+        ev.preventDefault();
+        var button = form.querySelector(".btn-submit");
+        button.disabled = true;
+        button.innerText = "Отправка...";
+        
+        fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(response) {
+          if (response.ok) {
+            form.innerHTML = "<h3 style='text-align:center; color:var(--vv-green); padding:20px;'>Заявка успешно принята!<br>Менеджер свяжется с вами.</h3>";
+          } else {
+            alert("Ошибка отправки. Попробуйте еще раз.");
+            button.disabled = false;
+            button.innerText = "Получить работу";
+          }
+        }).catch(function(error) {
+          alert("Ошибка сети. Попробуйте еще раз.");
+          button.disabled = false;
+          button.innerText = "Получить работу";
+        });
+      });
+    </script>
 
 </body>
 </html>
